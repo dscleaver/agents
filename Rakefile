@@ -2,7 +2,7 @@ require 'rake'
 require 'rubygems'
 require 'rspec/core/rake_task'
 
-task :default => [:spec, :test]
+task :default => [:spec_detailed, :test]
 
 task :test do
   require File.dirname(__FILE__) + '/test/all_tests.rb'
