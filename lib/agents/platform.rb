@@ -1,6 +1,7 @@
 lib = File.dirname(__FILE__)
 
 require lib + '/platform_config'
+require lib + '/platform_message_router'
 require lib + '/agent'
 require 'revactor'
 
@@ -9,11 +10,10 @@ module Agent
 
     class Platform    
 
-      attr_accessor :state
+      attr_accessor :state, :messaging
 
       def initialize(&block)
         @state = :configuring
-
         @config = PlatformConfig.new(&block) 
       end
 
@@ -36,12 +36,14 @@ module Agent
       end
 
       def setup_support_services
+        @messaging = MessageRouter.new
+        @messaging.start
       end
 
       def setup_agents
         for config in @config.agents
           agent = ::Agent::Agent.new(config)
-          agent.start
+          agent.start(self)
         end
       end
 

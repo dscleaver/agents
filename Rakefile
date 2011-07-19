@@ -2,16 +2,18 @@ require 'rake'
 require 'rubygems'
 require 'rspec/core/rake_task'
 
-task :default => [:spec_detailed, :test]
+task :default => [:spec, :test]
 
 task :test do
   require File.dirname(__FILE__) + '/test/all_tests.rb'
 end
 
 desc "Run all specs"
-RSpec::Core::RakeTask.new(:spec) 
-
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = ["--color"]
+end
+ 
 desc "Run all specs with detailed reporting"
 RSpec::Core::RakeTask.new(:spec_detailed) do |t|
-  t.rspec_opts = ["--format", "documentation"]
+  t.rspec_opts = ["--format", "documentation", "--color"]
 end

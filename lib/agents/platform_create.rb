@@ -9,7 +9,8 @@ module Agent
     def self.create(&block)
       platform = Platform.new(&block)
       platform.start()
-      PlatformControl.new(platform)
+     # PlatformControl.new(platform)
+      platform
     end
 
   end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 #require 'revactor'
 
-describe "Platform" do
+describe "Agent::Platform" do
 
   describe "created without block" do
 
@@ -22,14 +22,17 @@ describe "Platform" do
 
     before(:all) do
       actor = Actor.current
+      ag = :nil
       @platform = Agent::Platform::create do
         agent "Agent" do 
-          on_start do
+          on_start do |agent|
             actor = Actor.current
+            ag = agent
           end
         end
       end
       @actor = actor
+      @agent = ag
     end
 
     it "platform should be running" do
@@ -40,5 +43,9 @@ describe "Platform" do
       @actor.should_not == Actor.current
     end
 
+    it "agent registers with message router" do
+      @platform.messaging.contains?("Agent").should == true
+    end
+   
   end
 end

@@ -15,5 +15,9 @@ module Agent
       @start_block = block
     end
 
+    def service(&block)
+      
+    end
+
   end
 end
